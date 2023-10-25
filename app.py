@@ -30,7 +30,13 @@ delete_schema = {
 
 class IndexPage(Resource):
     def get(self):
-        return { "message": "Need Web UI, Please add UI support https://github.com/narate/prom-file-sd"}
+        client = MongoClient(MONGO_HOST, MONGO_PORT)
+        db = client.prom
+        col = db.targets
+        targets = []
+        for o in col.find():
+            targets.append({'target': o['target'], 'labels': o.get('labels',{}), 'id': str(o['_id'])})
+        return { "message": targets }
 
 class PromTargets(Resource):
     def get(self):

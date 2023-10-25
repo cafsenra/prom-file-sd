@@ -1,5 +1,4 @@
-FROM python:alpine
-LABEL maintainer="Narate Ketram <rate@dome.cloud>"
+FROM python:3.9.18-alpine3.18
 WORKDIR /app
 ADD ./requirements.txt .
 RUN pip install -r requirements.txt

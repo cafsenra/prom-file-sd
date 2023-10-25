@@ -9,7 +9,7 @@ services:
       - ./prometheus_data:/prometheus
     command: ["--config.file=/conf/prometheus.yml", "--storage.tsdb.retention=30d", "--web.enable-lifecycle"]
   db:
-    image: mongo
+    image: mongo:7.0.2
     restart: always
     volumes: 
       - ./mongo_data:/data/db
