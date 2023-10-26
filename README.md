@@ -43,12 +43,6 @@ curl -XDELETE \
     -d {"id": "5be488a46b045b30130fcbfa"}
 ```
 
-![Prometheus Targets](images/prom-targets.png)
-
-# TODO
-- [x] Add Support custom `metrics_path`  (e.g. `/api/v1/metrics`)
-- [ ] Add Web UI
-
 ### Custom metrics_path
 
 ```
@@ -63,6 +57,11 @@ curl -H 'Content-Type: application/json' \
     }
 }'
 ```
+
+![Prometheus Targets](images/prom-targets.png)
+
+# TODO
+- [ ] Add Web UI
 
 ### USE FILE-BASED SERVICE DISCOVERY TO DISCOVER SCRAPE TARGETS
 https://prometheus.io/docs/guides/file-sd/
