@@ -105,4 +105,4 @@ venv.bak/
 
 mongo_data
 prometheus_data
-targets.json
+*.json

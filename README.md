@@ -40,20 +40,20 @@ curl http://localhost:5000/targets
 curl -XDELETE \
     -H 'Content-Type: application/json' \
     http://localhost:5000/targets \
-    -d {"id": "5be488a46b045b30130fcbfa"}
+    -d '{"id": "5be488a46b045b30130fcbfa"}'
 ```
 
 ### Custom metrics_path
 
 ```
-curl -H 'Content-Type: application/json' \ 
+curl -H 'Content-Type: application/json' \
     http://localhost:5000/targets \
     -d '{
     "target": "example.com:3000",
     "labels": {
         "env": "prom",
-	"job": "prom",
-	"__metrics_path__": "/api/v1/metrics"
+        "job": "prom",
+        "__metrics_path__": "/api/v1/metrics"
     }
 }'
 ```

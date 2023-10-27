@@ -76,7 +76,9 @@ class PromTargets(Resource):
             doc['labels']['__metrics_path__'] = '/metrics'
         
         col.replace_one(sel, doc, True)
-        with open('/prom/conf/targets.json', 'w') as f:
+        file_name = doc['target'].replace(':', '-').replace('.', '_')
+        print(file_name)
+        with open('/prom/conf/' + file_name + '.json', 'w') as f:
             targets = []
             for o in col.find({}, projection={'_id': False}):
                 targets.append(
@@ -85,8 +87,8 @@ class PromTargets(Resource):
                         'labels': o.get('labels',{})
                     }
                 )
-    
-            f.write(json.dumps(targets, indent=2))
+            target = [{'targets': [ body['target'] ],'labels': labels}]
+            f.write(json.dumps(target, indent=2))
             f.flush()
             os.fsync(f.fileno())
         return {
@@ -109,21 +111,21 @@ class PromTargets(Resource):
         sel = {
             '_id': ObjectId(body['id'])
         }
+        
+        file_name = ''
+        for o in col.find():
+            if str(o['_id']) == body['id']:
+                file_name = o['target'].replace(':', '-').replace('.', '_')
+            
         col.delete_one(sel)
-        with open('/prom/conf/targets.json', 'w') as f:
-            targets = []
-            for o in col.find({}, projection={'_id': False}):
-                targets.append(
-                    {
-                        'targets': [o['target']],
-                        'labels': o.get('labels',{})
-                    }
-                )
-    
-            f.write(json.dumps(targets, indent=2))
-            f.flush()
-            os.fsync(f.fileno())
-        return None, 204
+        
+        if os.path.exists('/prom/conf/' + file_name + '.json'):
+            os.remove('/prom/conf/' + file_name + '.json')
+            return None, 204
+        else:
+            return {
+                'message': 'Error removing file /prom/conf/' + file_name + '.json, please remove it manually.'
+            }, 500
 
 api.add_resource(IndexPage, '/')
 api.add_resource(PromTargets, '/targets')

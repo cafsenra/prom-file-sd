@@ -26,4 +26,4 @@ scrape_configs:
     scrape_interval: "15s"
     file_sd_configs:
       - files:
-        - "targets.json"
+        - "*.json"
